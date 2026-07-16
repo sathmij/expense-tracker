@@ -1,0 +1,39 @@
+<h2>{{ isEditMode ? 'Edit Expense' : 'Add Expense' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="amount">Amount</label>
+    <input id="amount" type="number" step="0.01" formControlName="amount" />
+    <div *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
+      <small *ngIf="form.get('amount')?.errors?.['required']">Amount is required.</small>
+      <small *ngIf="form.get('amount')?.errors?.['min']">Amount must be positive.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="category">Category</label>
+    <select id="category" formControlName="category">
+      <option [ngValue]="null" disabled>Select a category</option>
+      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+    </select>
+    <div *ngIf="form.get('category')?.invalid && form.get('category')?.touched">
+      <small>Category is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="date">Date</label>
+    <input id="date" type="date" formControlName="date" />
+    <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
+      <small>Date is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <input id="description" type="text" formControlName="description" />
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Save</button>
+  <a routerLink="/">Cancel</a>
+</form>
