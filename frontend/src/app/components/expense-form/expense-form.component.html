@@ -1,41 +1,59 @@
-<h2>{{ isEditMode ? 'Edit Expense' : 'Add Expense' }}</h2>
-
-<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="amount">Amount</label>
-    <input id="amount" type="number" step="0.01" formControlName="amount" />
-    <div *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
-      <small *ngIf="form.get('amount')?.errors?.['required']">Amount is required.</small>
-      <small *ngIf="form.get('amount')?.errors?.['min']">Amount must be positive.</small>
+<div class="card">
+  <div class="page-header">
+    <div class="heading-group">
+      <span class="icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="16" />
+          <line x1="8" y1="12" x2="16" y2="12" />
+        </svg>
+      </span>
+      <h2>{{ isEditMode ? 'Edit Expense' : 'Add Expense' }}</h2>
     </div>
   </div>
 
-  <div>
-    <label for="category">Category</label>
-    <select id="category" formControlName="category">
-      <option [ngValue]="null" disabled>Select a category</option>
-      <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-    </select>
-    <div *ngIf="form.get('category')?.invalid && form.get('category')?.touched">
-      <small>Category is required.</small>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <div class="form-field amount-field">
+        <label for="amount">Amount</label>
+        <input id="amount" type="number" step="0.01" formControlName="amount" placeholder="Enter amount" />
+        <span class="currency-suffix">$</span>
+        <div *ngIf="form.get('amount')?.invalid && form.get('amount')?.touched">
+          <small *ngIf="form.get('amount')?.errors?.['required']">Amount is required.</small>
+          <small *ngIf="form.get('amount')?.errors?.['min']">Amount must be positive.</small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="category">Category</label>
+        <select id="category" formControlName="category">
+          <option [ngValue]="null" disabled>Select a category</option>
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+        <div *ngIf="form.get('category')?.invalid && form.get('category')?.touched">
+          <small>Category is required.</small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="date">Date</label>
+        <input id="date" type="date" formControlName="date" />
+        <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
+          <small>Date is required.</small>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description</label>
+        <input id="description" type="text" formControlName="description" placeholder="Enter description (optional)" />
+      </div>
     </div>
-  </div>
 
-  <div>
-    <label for="date">Date</label>
-    <input id="date" type="date" formControlName="date" />
-    <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched">
-      <small>Date is required.</small>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save Expense</button>
+      <a routerLink="/" class="btn btn-outline">Cancel</a>
     </div>
-  </div>
-
-  <div>
-    <label for="description">Description</label>
-    <input id="description" type="text" formControlName="description" />
-  </div>
-
-  <button type="submit" [disabled]="form.invalid">Save</button>
-  <a routerLink="/">Cancel</a>
-</form>
+  </form>
+</div>

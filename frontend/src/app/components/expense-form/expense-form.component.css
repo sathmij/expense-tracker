@@ -1,47 +1,56 @@
-form div {
-  margin-bottom: 1rem;
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-label {
+.form-field {
+  position: relative;
+}
+
+.form-field label {
   display: block;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.875rem;
 }
 
-input,
-select {
+.form-field input,
+.form-field select {
   width: 100%;
-  max-width: 300px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   box-sizing: border-box;
+  color: var(--color-heading);
 }
 
-small {
+.form-field input::placeholder {
+  color: #94a3b8;
+}
+
+.amount-field input {
+  padding-right: 1.75rem;
+}
+
+.amount-field .currency-suffix {
+  position: absolute;
+  right: 0.75rem;
+  top: 2.35rem;
+  color: var(--color-muted);
+  pointer-events: none;
+}
+
+.form-field small {
   display: block;
-  color: #c0392b;
+  color: var(--color-danger);
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 
-button[type="submit"] {
-  background-color: #2563eb;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1.25rem;
-  font-size: 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button[type="submit"]:disabled {
-  background-color: #a5b4c4;
-  cursor: not-allowed;
-}
-
-form a {
-  margin-left: 1rem;
-  color: inherit;
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
 }

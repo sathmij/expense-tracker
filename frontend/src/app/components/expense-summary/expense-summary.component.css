@@ -1,12 +1,1 @@
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-top: 1rem;
-}
-
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-}
+/* No component-specific styles — card, table, and stat-card styling live in the global stylesheet */
