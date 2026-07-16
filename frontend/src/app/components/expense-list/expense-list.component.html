@@ -1,5 +1,7 @@
 <h2>Expenses</h2>
 
+<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 <table border="1" cellpadding="8">
   <thead>
     <tr>

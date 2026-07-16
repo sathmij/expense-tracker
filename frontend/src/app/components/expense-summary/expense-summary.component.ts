@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ExpenseSummary } from '../../models/expense.model';
 import { ExpenseService } from '../../services/expense.service';
+import { getErrorMessage } from '../../shared/http-error.util';
 
 @Component({
   selector: 'app-expense-summary',
@@ -12,13 +13,19 @@ import { ExpenseService } from '../../services/expense.service';
 export class ExpenseSummaryComponent implements OnInit {
   summary?: ExpenseSummary;
   categoryEntries: [string, number][] = [];
+  errorMessage: string | null = null;
 
   constructor(private expenseService: ExpenseService) {}
 
   ngOnInit(): void {
-    this.expenseService.getSummary().subscribe(summary => {
-      this.summary = summary;
-      this.categoryEntries = Object.entries(summary.byCategory) as [string, number][];
+    this.expenseService.getSummary().subscribe({
+      next: summary => {
+        this.summary = summary;
+        this.categoryEntries = Object.entries(summary.byCategory) as [string, number][];
+      },
+      error: err => {
+        this.errorMessage = getErrorMessage(err);
+      }
     });
   }
 }

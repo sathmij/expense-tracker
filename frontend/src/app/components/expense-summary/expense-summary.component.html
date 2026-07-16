@@ -1,5 +1,7 @@
 <h2>Summary</h2>
 
+<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 <p *ngIf="summary"><strong>Total spent:</strong> {{ summary.total }}</p>
 
 <table border="1" cellpadding="8">

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Category } from '../../models/expense.model';
 import { ExpenseService } from '../../services/expense.service';
+import { getErrorMessage } from '../../shared/http-error.util';
 
 @Component({
   selector: 'app-expense-form',
@@ -16,6 +17,7 @@ export class ExpenseFormComponent implements OnInit {
 
   isEditMode = false;
   expenseId?: number;
+  errorMessage: string | null = null;
   form: FormGroup;
 
   constructor(
@@ -24,6 +26,8 @@ export class ExpenseFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    // Built here rather than as a class field initializer: field initializers run before
+    // constructor-parameter assignment, so `this.fb` would still be undefined at that point.
     this.form = this.fb.group({
       amount: [null, [Validators.required, Validators.min(0.01)]],
       category: [null, Validators.required],
@@ -37,13 +41,18 @@ export class ExpenseFormComponent implements OnInit {
     if (idParam) {
       this.isEditMode = true;
       this.expenseId = Number(idParam);
-      this.expenseService.getById(this.expenseId).subscribe(expense => {
-        this.form.patchValue({
-          amount: expense.amount,
-          category: expense.category,
-          date: expense.date,
-          description: expense.description
-        });
+      this.expenseService.getById(this.expenseId).subscribe({
+        next: expense => {
+          this.form.patchValue({
+            amount: expense.amount,
+            category: expense.category,
+            date: expense.date,
+            description: expense.description
+          });
+        },
+        error: err => {
+          this.errorMessage = getErrorMessage(err);
+        }
       });
     }
   }
@@ -54,15 +63,26 @@ export class ExpenseFormComponent implements OnInit {
       return;
     }
 
+    this.errorMessage = null;
     const expense = this.form.value;
 
     if (this.isEditMode && this.expenseId !== undefined) {
-      this.expenseService.update(this.expenseId, expense).subscribe(() => {
-        this.router.navigate(['/']);
+      this.expenseService.update(this.expenseId, expense).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: err => {
+          this.errorMessage = getErrorMessage(err);
+        }
       });
     } else {
-      this.expenseService.create(expense).subscribe(() => {
-        this.router.navigate(['/']);
+      this.expenseService.create(expense).subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: err => {
+          this.errorMessage = getErrorMessage(err);
+        }
       });
     }
   }

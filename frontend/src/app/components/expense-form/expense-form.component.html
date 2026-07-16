@@ -1,5 +1,7 @@
 <h2>{{ isEditMode ? 'Edit Expense' : 'Add Expense' }}</h2>
 
+<div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div>
     <label for="amount">Amount</label>
