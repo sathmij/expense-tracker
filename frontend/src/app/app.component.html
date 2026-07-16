@@ -1,3 +1,9 @@
 <h1>Personal Expense Tracker</h1>
 
+<nav>
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Expenses</a>
+  <a routerLink="/add" routerLinkActive="active">Add Expense</a>
+  <a routerLink="/summary" routerLinkActive="active">Summary</a>
+</nav>
+
 <router-outlet></router-outlet>
