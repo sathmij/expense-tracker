@@ -1,5 +1,6 @@
 package com.sathmi.expensetracker.controller;
 
+import com.sathmi.expensetracker.dto.ExpenseSummary;
 import com.sathmi.expensetracker.model.Expense;
 import com.sathmi.expensetracker.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -34,6 +35,11 @@ public class ExpenseController {
     @GetMapping("/{id}")
     public Expense getExpenseById(@PathVariable Long id) {
         return expenseService.getExpenseById(id);
+    }
+
+    @GetMapping("/summary")
+    public ExpenseSummary getSummary() {
+        return expenseService.getSummary();
     }
 
     @PostMapping

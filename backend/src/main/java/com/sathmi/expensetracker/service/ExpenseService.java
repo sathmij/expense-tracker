@@ -1,11 +1,16 @@
 package com.sathmi.expensetracker.service;
 
+import com.sathmi.expensetracker.dto.ExpenseSummary;
 import com.sathmi.expensetracker.exception.ResourceNotFoundException;
+import com.sathmi.expensetracker.model.Category;
 import com.sathmi.expensetracker.model.Expense;
 import com.sathmi.expensetracker.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseService {
@@ -41,5 +46,20 @@ public class ExpenseService {
     public void deleteExpense(Long id) {
         Expense existing = getExpenseById(id);
         expenseRepository.delete(existing);
+    }
+
+    public ExpenseSummary getSummary() {
+        List<Expense> expenses = expenseRepository.findAll();
+
+        BigDecimal total = expenses.stream()
+                .map(Expense::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Map<Category, BigDecimal> byCategory = expenses.stream()
+                .collect(Collectors.groupingBy(
+                        Expense::getCategory,
+                        Collectors.reducing(BigDecimal.ZERO, Expense::getAmount, BigDecimal::add)));
+
+        return new ExpenseSummary(total, byCategory);
     }
 }
