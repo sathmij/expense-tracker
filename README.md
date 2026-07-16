@@ -28,8 +28,10 @@ From a clean checkout, in a separate terminal:
 ```bash
 cd frontend
 npm install
-ng serve
+npm start
 ```
+
+(`npm start` runs `ng serve` via the local Angular CLI in `devDependencies` — the Angular CLI isn't installed globally here, so a bare `ng serve` won't work unless you've installed it yourself. `npx ng serve` works too.)
 
 - App runs at `http://localhost:4200`
 
@@ -50,9 +52,24 @@ Base path: `/api/expenses`
 
 ### What's done
 
+All Must-Have requirements from the brief are complete:
+- Add, view, edit, and delete expenses (amount, category, date, description)
+- Fixed expense categories (Food, Transport, Bills, Entertainment, Health, Other)
+- Total summary, overall and per category
+- REST API backend consumed by the Angular frontend
+- Input validation (amount required and positive), enforced on both backend and frontend
 
-### What's partial
+Also done, from good-to-haves:
+- A few backend unit tests (JUnit 5 + Mockito)
 
+### What's partial / not done
 
-### What I'd do next with more time
-
+Good-to-Have items yet to be implemented:
+- Filter/search by category or date range
+- Sort the list (by date, amount, or category)
+- Spending summary chart
+- Filter totals by month or date range
+- User-managed categories
+- Pagination
+- Authentication (login)
+- CSV export
