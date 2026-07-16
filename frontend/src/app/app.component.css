@@ -1,7 +1,13 @@
 nav {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 0.25rem;
 }
 
 nav a.active {
